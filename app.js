@@ -37,7 +37,7 @@ class UI {
         const row = document.createElement('tr');
 
         row.innerHTML = `
-    <td>${student.registration}</td>
+                    <td>${student.registration}</td>
                     <td>${student.name}</td>
                     <td>${student.grade}</td>
                     <td>${student.address}</td>
@@ -63,8 +63,11 @@ class UI {
         div.className = `alert alert-${className}`;
         div.appendChild(document.createTextNode(message));
         const container = document.querySelector('.container');
-        const form = document.querySelector('#registration-form');
+        const form = document.querySelector('#student-form');
         container.insertBefore(div, form);
+
+        // Vanish alert in 5 secons.
+        setTimeout(() => document.querySelector('.alert').remove(), 3000);
     }
     // Clear Student after submitting 
     static clearStudent() {
@@ -86,23 +89,27 @@ const registrationForm = document.querySelector('#registration-form');
 registrationForm.addEventListener('submit', (e) => {
     // prevent default action
     e.preventDefault();
-    const registation = document.querySelector('#registration').value;
+    const registration = document.querySelector('#registration').value;
     const name = document.querySelector('#name').value;
     const grade = document.querySelector('#grade').value;
     const address = document.querySelector('#address').value;
 
     // Validate the student form field
-    if (registation === '' || name === '' || grade === '' || address) {
+    if (registration === '' || name === '' || grade === '' || address === '') {
         UI.showAlert('please fill all the fields', 'danger')
+        console.log('book empty')
 
     } else {
         // Instantiate Student
-        const student = new Student(registation, name, grade, address);
+        const student = new Student(registration, name, grade, address);
 
-        console.log('Adding student', student)
+        //console.log('Adding student', student)
         // Add student to the list
         UI.addStudentToList(student);
 
+        // Show student registered information alert
+
+        UI.showAlert('Student registered', 'success')
         // Clear the student 
         UI.clearStudent();
     }
