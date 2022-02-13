@@ -48,6 +48,13 @@ class UI {
         console.log(student)
     }
 
+    // Clear Student after submitting 
+    static clearStudent() {
+        document.querySelector('#registration').value = '';
+        document.querySelector('#name').value = '';
+        document.querySelector('#grade').value = '';
+        document.querySelector('#address').value = '';
+    }
 }
 // Store Class: Handles storage
 
@@ -64,9 +71,14 @@ registrationForm.addEventListener('submit', (e) => {
     const name = document.querySelector('#name').value;
     const grade = document.querySelector('#grade').value;
     const address = document.querySelector('#address').value;
-    // Instantiate book
+    // Instantiate Student
     const student = new Student(registation, name, grade, address);
-    console.log('Adding student', student)
 
+    console.log('Adding student', student)
+    // Add student to the list
+    UI.addStudentToList(student);
+
+    // Clear the student 
+    UI.clearStudent();
 });
 // Event: Remove a Student
