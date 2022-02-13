@@ -48,6 +48,24 @@ class UI {
         console.log(student)
     }
 
+    // Delete Student 
+    static deleteStudent(el) {
+        if (el.classList.contains('delete')) {
+            // this below code first goes to td and then it will look for // its parent ie tr. 
+            el.parentElement.parentElement.remove();
+        }
+    }
+    // show Alert
+    // Adding the div to display danger or success message.
+    // <div class = "alert alert-danger">
+    static showAlert(message, className) {
+        const div = document.createElement('div');
+        div.className = `alert alert-${className}`;
+        div.appendChild(document.createTextNode(message));
+        const container = document.querySelector('.container');
+        const form = document.querySelector('#registration-form');
+        container.insertBefore(div, form);
+    }
     // Clear Student after submitting 
     static clearStudent() {
         document.querySelector('#registration').value = '';
@@ -55,6 +73,7 @@ class UI {
         document.querySelector('#grade').value = '';
         document.querySelector('#address').value = '';
     }
+
 }
 // Store Class: Handles storage
 
@@ -71,14 +90,26 @@ registrationForm.addEventListener('submit', (e) => {
     const name = document.querySelector('#name').value;
     const grade = document.querySelector('#grade').value;
     const address = document.querySelector('#address').value;
-    // Instantiate Student
-    const student = new Student(registation, name, grade, address);
 
-    console.log('Adding student', student)
-    // Add student to the list
-    UI.addStudentToList(student);
+    // Validate the student form field
+    if (registation === '' || name === '' || grade === '' || address) {
+        UI.showAlert('please fill all the fields', 'danger')
 
-    // Clear the student 
-    UI.clearStudent();
+    } else {
+        // Instantiate Student
+        const student = new Student(registation, name, grade, address);
+
+        console.log('Adding student', student)
+        // Add student to the list
+        UI.addStudentToList(student);
+
+        // Clear the student 
+        UI.clearStudent();
+    }
+
 });
 // Event: Remove a Student
+document.querySelector('#student-list').addEventListener('click', (e) => {
+    console.log(e.target)
+    UI.deleteStudent(e.target);
+})
